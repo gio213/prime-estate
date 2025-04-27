@@ -5,12 +5,12 @@ import { Button } from "./ui/button";
 
 const NavBar = () => {
   return (
-    <div className="flex space-x-4">
+    <div className="hidden md:flex space-x-4">
       {navbarItems.map((item, index) => (
         <Button asChild key={index} variant={"ghost"} size="sm">
           <Link
             href={item.href}
-            className="text-gray-700 flex gap-2 items-center dark:text-gray-100 hover:text-primary dark:hover:text-primary   transition-all duration-300 ease-in-out p-5 font-bold underline-offset-8  "
+            className="text-gray-700 hover:rounded-2xl flex gap-2 items-center dark:text-primary hover:text-primary dark:hover:text-primary   transition-all duration-300 ease-in-out p-5 font-bold underline-offset-8  "
           >
             {item.name}
             {item.icon && (

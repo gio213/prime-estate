@@ -1,15 +1,22 @@
-import FadeContent from "@/components/FadeContent";
+import HeroText from "@/components/HeroText";
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <FadeContent
-      className="flex items-center justify-center h-screen"
-      blur={true}
-      duration={1000}
-      easing="ease-out"
-      initialOpacity={0}
-    >
-      <h1>home page </h1>
-    </FadeContent>
+    <div className="flex flex-col gap-10">
+      <HeroText />
+      <div className="relative w-full aspect-[16/9]">
+        <Image
+          src="/assets/hero.png"
+          alt="Hero Image"
+          fill
+          sizes="(max-width: 768px) 100vw,
+                 (max-width: 1200px) 80vw,
+                 1400px"
+          className="object-cover rounded-4xl"
+          priority
+        />
+      </div>
+    </div>
   );
 }

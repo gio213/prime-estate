@@ -78,6 +78,7 @@
   --sidebar-accent-foreground: #1967d2;
   --sidebar-border: #dadce0;
   --sidebar-ring: #1a73e8;
+  --sidebar: hsl(0 0% 98%);
 }
 
 .dark {
@@ -114,6 +115,7 @@
   --sidebar-accent-foreground: #8ab4f8;
   --sidebar-border: #5f6368;
   --sidebar-ring: #8ab4f8;
+  --sidebar: hsl(240 5.9% 10%);
 }
 @layer base {
   :root {

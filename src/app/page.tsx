@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col mt-10 gap-10">
       <HeroText />
       <div className="relative w-full aspect-[16/9]">
         <Image

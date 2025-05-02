@@ -6,9 +6,13 @@ import MobileNav from "./MobileNav";
 import SignInButton from "./SignInButton";
 import { currentUser } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
+import { syncUser } from "@/actions/user.action";
+import { User } from "lucide-react";
+import UserProfile from "./UserProfile";
 
 const Header = async () => {
   const user = await currentUser();
+  await syncUser();
 
   return (
     <header className="flex sticky top-0 z-50 items-center justify-between p-4 h-24 shadow-xl bg-background">
@@ -27,26 +31,7 @@ const Header = async () => {
         {" "}
         {user ? (
           <>
-            <UserButton
-              appearance={{
-                variables: {
-                  colorBackground: "#1e293b",
-                  fontFamily: "sans-serif",
-                  fontWeight: { bold: 700 },
-                  fontSize: "16px",
-                },
-              }}
-              showName
-              userProfileMode="modal"
-              userProfileProps={{
-                appearance: {
-                  variables: {
-                    colorBackground: "#63cb50",
-                    colorText: "#ffffff",
-                  },
-                },
-              }}
-            />
+            <UserProfile />
             <ModeToggle />
           </>
         ) : (

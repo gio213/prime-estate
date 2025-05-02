@@ -1,4 +1,4 @@
-import { Home } from "lucide-react";
+import { Home, PlusCircle } from "lucide-react";
 
 export const navbarItems = [
   {
@@ -21,5 +21,23 @@ export const navbarItems = [
   {
     name: "Properties",
     href: "/properties",
+  },
+];
+
+export const sideBarItems = [
+  {
+    title: "Home",
+    url: "#",
+    icon: Home,
+  },
+  {
+    title: "Inbox",
+    url: "#",
+    icon: PlusCircle,
+  },
+  {
+    title: "My Properties",
+    url: "#",
+    icon: PlusCircle,
   },
 ];

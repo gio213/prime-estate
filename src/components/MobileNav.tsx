@@ -16,7 +16,7 @@ const MobileNav = () => {
       <SheetTrigger className="blocl md:hidden">
         <Menu size={25} />
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side="top" className="bg-accent">
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
           <SheetDescription>

@@ -21,57 +21,36 @@ const ACCEPTED_IMAGE_TYPES = [
 ];
 
 export const propertyValidation = z.object({
-  name: z
-    .string()
-    .min(1, { message: "Name is required" })
-    .nullable()
-    .optional(),
-  description: z
-    .string()
-    .min(1, { message: "Description is required" })
-    .nullable()
-    .optional(),
-  price: z
-    .number()
-    .min(0, { message: "Price must be 0 or higher" })
-    .nullable()
-    .optional(),
-  for: z.enum(FOR).optional().nullable(),
-  type: z.enum(TYPE).optional().nullable(),
+  name: z.string().min(1, { message: "Name is required" }),
+  description: z.string().min(1, { message: "Description is required" }), // Remove nullable
+  price: z.number().min(1, { message: "Price is required" }),
+  sellerPhone: z.string().min(1, { message: "Phone number is required" }),
 
-  area: z
-    .number()
-    .min(0, { message: "Area must be 0 or higher" })
-    .nullable()
-    .optional(),
-  rooms: z
-    .number()
-    .int()
-    .min(0, { message: "Rooms must be 0 or higher" })
-    .nullable()
-    .optional(),
-  bathrooms: z
-    .number()
-    .int()
-    .min(0, { message: "Bathrooms must be 0 or higher" })
-    .nullable()
-    .optional(),
-  garage: z
-    .number()
-    .int()
-    .min(0, { message: "Garage must be 0 or higher" })
-    .nullable()
-    .optional(),
-  garden: z.boolean().nullable().optional(),
-  balcony: z.boolean().nullable().optional(),
-  terrace: z.boolean().nullable().optional(),
-  pool: z.boolean().nullable().optional(),
-  airConditioning: z.boolean().nullable().optional(),
-  heating: z.boolean().nullable().optional(),
-  furnished: z.boolean().nullable().optional(),
-  elevator: z.boolean().nullable().optional(),
-  parking: z.boolean().nullable().optional(),
-  location: z.string().nullable().optional(),
+  for: z.enum(FOR, {
+    required_error: "Property status (For Rent/Sale) is required",
+  }),
+  type: z.enum(TYPE, {
+    required_error: "Property type is required",
+  }),
+
+  area: z.number().min(1, { message: "Area is required" }),
+  rooms: z.number().int().min(1, { message: "Rooms must be 1 or higher" }),
+  bathrooms: z.number().int().min(0, { message: "Bathrooms are required" }),
+  garage: z.number().int().min(0).optional(), // Garage is optional and can be null
+
+  // Boolean fields matching Prisma schema
+  garden: z.boolean().optional(),
+  balcony: z.boolean().optional(),
+  terrace: z.boolean().optional(),
+  pool: z.boolean().optional(),
+  airConditioning: z.boolean().optional(),
+  heating: z.boolean().optional(),
+  furnished: z.boolean().optional(),
+  elevator: z.boolean().optional(),
+  parking: z.boolean().optional(),
+
+  location: z.string().min(1, { message: "Location is required" }), // Remove nullable
+
   images: z
     .array(
       z

@@ -1,4 +1,4 @@
-import { Home, PlusCircle } from "lucide-react";
+import { Home, PlusCircle, Building2, CreditCard, User2 } from "lucide-react";
 
 export const navbarItems = [
   {
@@ -26,18 +26,29 @@ export const navbarItems = [
 
 export const sideBarItems = [
   {
-    title: "Home",
-    url: "#",
+    title: "Home Page",
+    url: "/",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: PlusCircle,
+    title: "My Profile",
+    url: "/my-profile",
+    icon: User2,
   },
   {
-    title: "My Properties",
-    url: "#",
+    title: "Add Property",
+    url: "/my-profile/add-property",
     icon: PlusCircle,
+  },
+
+  {
+    title: "My Properties",
+    url: "/my-profile/my-listings",
+    icon: Building2,
+  },
+  {
+    title: "Balance",
+    url: "/my-profile/balance",
+    icon: CreditCard,
   },
 ];

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Progress } from "@/components/ui/progress";
@@ -33,7 +33,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { upload } from "@vercel/blob/client";
-import { PropertyWithStringImages } from "@/actions/property.action";
+import {
+  addProperty,
+  PropertyWithStringImages,
+} from "@/actions/property.action";
+import { useUser } from "@clerk/nextjs";
+import { Loader2Icon } from "lucide-react";
+import { set } from "zod";
 
 const FOR_OPTIONS = [
   { value: "RENT", label: "For Rent" },
@@ -51,35 +57,23 @@ const TYPE_OPTIONS = [
   { value: "STORAGE", label: "Storage" },
 ];
 
-const STATUS_OPTIONS = [
-  { value: "ACTIVE", label: "Active" },
-  { value: "INACTIVE", label: "Inactive" },
-];
-
 interface PropertyFormProps {
   initialValues?: Partial<PropertyFormValues>;
-  onSubmit: (data: PropertyWithStringImages) => void | Promise<{
-    message: string;
-    success: boolean;
-    property?: PropertyWithStringImages;
-  }>;
-  isSubmitting?: boolean;
 }
 
-export function PropertyForm({
-  initialValues,
-  onSubmit,
-  isSubmitting = false,
-}: PropertyFormProps) {
+export function PropertyForm({ initialValues }: PropertyFormProps) {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { user } = useUser();
 
   const form = useForm<PropertyFormValues>({
     resolver: zodResolver(propertyValidation),
     defaultValues: {
       name: initialValues?.name,
+      sellerPhone: initialValues?.sellerPhone,
       description: initialValues?.description,
       price: initialValues?.price || 0,
       for: initialValues?.for,
@@ -103,14 +97,21 @@ export function PropertyForm({
   });
 
   // Setup image previews if initial values contain images
-  useState(() => {
+  useEffect(() => {
     if (initialValues?.images && initialValues.images.length > 0) {
       const previews = initialValues.images.map((file) =>
         URL.createObjectURL(file)
       );
       setImagePreviews(previews);
     }
-  });
+  }, [initialValues?.images]);
+
+  // Cleanup function to revoke object URLs when component unmounts
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [imagePreviews]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -163,48 +164,63 @@ export function PropertyForm({
   };
 
   const handleSubmit = async (data: PropertyFormValues) => {
-    toast.promise(
-      (async () => {
-        try {
-          setIsUploading(true);
-          // Upload images first
-          const imageUrls = await handlePhotoUpload(data.images);
+    setIsUploading(true);
 
-          // Create property with image URLs
-          const result = await onSubmit({
-            ...data,
-            images: imageUrls, // Replace File[] with string[]
-          });
+    // Create a promise for the entire upload and submission process
+    const uploadAndSubmitPromise = (async () => {
+      // Upload images first
+      const imageUrls = await handlePhotoUpload(data.images);
 
-          return result;
-        } finally {
-          setIsUploading(false);
-        }
-      })(),
-      {
-        loading: (
-          <div className="flex flex-col gap-2">
-            <p>Uploading property images...</p>
-            <Progress value={uploadProgress} className="h-2 w-full" />
-          </div>
-        ),
-        success: () => "Property created successfully!",
-        error: (error) =>
-          `Error: ${error.message || "Failed to create property"}`,
+      // Prepare data for submission
+      const propertyData: PropertyWithStringImages = {
+        ...data,
+        images: imageUrls,
+      };
+
+      const result = await addProperty(propertyData);
+      if (!result.success) {
+        throw new Error(result.message);
       }
-    );
+    })();
+
+    // Show toast with progress based on the promise
+    toast.promise(uploadAndSubmitPromise, {
+      loading: (
+        <div className="flex flex-col gap-2">
+          <p>Uploading property images...</p>
+          <Progress value={uploadProgress} className="h-2 w-full" />
+          <p>{uploadProgress}%</p>
+        </div>
+      ),
+      success: "Property created successfully!",
+      error: (error) =>
+        `Error: ${error?.message || "Failed to create property"}`,
+    });
+
+    try {
+      await uploadAndSubmitPromise;
+    } catch (error) {
+      console.error("Error in form submission:", error);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handlePhotoUpload = async (files: File[]): Promise<string[]> => {
     try {
       const uploadPromises = files.map(async (file) => {
-        const blob = await upload(`prime-estate/${file.name}`, file, {
-          access: "public",
-          handleUploadUrl: "/api/property-photo-upload",
-          onUploadProgress: (progress) => {
-            setUploadProgress(progress.percentage);
-          },
-        });
+        const blob = await upload(
+          `prime-estate/${user?.id}/${file.name}`,
+          file,
+          {
+            access: "public",
+            handleUploadUrl: "/api/property-photo-upload",
+            onUploadProgress: (progress) => {
+              setUploadProgress(progress.percentage);
+              console.log("Upload progress:", progress.percentage);
+            },
+          }
+        );
         return blob.url;
       });
 
@@ -215,31 +231,20 @@ export function PropertyForm({
       throw error;
     } finally {
       setUploadProgress(0); // Reset progress after upload
+      setIsUploading(false); // Reset uploading state
+      form.resetField("images", {
+        defaultValue: [],
+        keepDirty: false,
+        keepTouched: false,
+        keepError: false,
+      }); // Reset the images field in the form
+      form.reset();
+      setImagePreviews([]); // Clear image previews
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // Reset the file input
+      }
     }
   };
-
-  // Cleanup function to revoke object URLs when component unmounts
-  useState(() => {
-    return () => {
-      imagePreviews.forEach((url) => URL.revokeObjectURL(url));
-    };
-  });
-
-  // toast.promise(handleSubmit, {
-  //   loading: <Progress
-  //   success: (data: { name: string }) => {
-  //     return {
-  //       message: `${data.name} toast has been added`,
-  //       description: "Custom description for the success state",
-  //     };
-  //   },
-  //   error: (error: Error) => {
-  //     return {
-  //       message: "Error occurred",
-  //       description: error.message,
-  //     };
-  //   },
-  // });
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
@@ -264,6 +269,29 @@ export function PropertyForm({
                     <FormControl>
                       <Input
                         placeholder="Property name"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="sellerPhone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Contact Number
+                      <span className="text-xs text-muted-foreground">
+                        (e.g., +1234567890)
+                      </span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Contact number"
+                        type="tel"
                         {...field}
                         value={field.value || ""}
                       />
@@ -315,7 +343,7 @@ export function PropertyForm({
               )}
             />
 
-            <div className="flex items-center  justify-center gap-4">
+            <div className="flex items-center justify-center gap-4">
               <FormField
                 control={form.control}
                 name="for"
@@ -373,6 +401,7 @@ export function PropertyForm({
               />
             </div>
 
+            {/* Rest of the form fields remain unchanged */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <FormField
                 control={form.control}
@@ -677,12 +706,14 @@ export function PropertyForm({
             </div>
 
             <div className="flex justify-end">
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting
-                  ? "Saving..."
-                  : initialValues
-                  ? "Update Property"
-                  : "Create Property"}
+              <Button type="submit" disabled={isSubmitting || isUploading}>
+                {isSubmitting || isUploading ? (
+                  <Loader2Icon size={20} className="animate-spin" />
+                ) : initialValues ? (
+                  "Update Property"
+                ) : (
+                  "Create Property"
+                )}
               </Button>
             </div>
           </form>

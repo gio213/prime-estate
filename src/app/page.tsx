@@ -1,5 +1,7 @@
+"use client";
 import HeroText from "@/components/HeroText";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function Home() {
   return (

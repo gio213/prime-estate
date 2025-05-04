@@ -10,7 +10,7 @@ export const metadata = {
 const addPropertyPage = async () => {
   return (
     <div>
-      <PropertyForm onSubmit={addProperty} />
+      <PropertyForm />
     </div>
   );
 };

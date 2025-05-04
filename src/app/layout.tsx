@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import FadeContent from "@/components/FadeContent";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +51,7 @@ export default function RootLayout({
               <div className="flex flex-col min-h-screen">
                 <Header />
                 <main className="flex-grow ">{children}</main>
+                <Toaster position="top-right" />
                 <Footer />
               </div>
             </FadeContent>

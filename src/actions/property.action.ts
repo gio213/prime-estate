@@ -18,6 +18,9 @@ export const addProperty = async (property: PropertyWithStringImages) => {
     if (!user) {
       return { message: "Unauthenticated user", success: false };
     }
+    if (user?.credit! < 1) {
+      return { message: "Insufficient credits", success: false };
+    }
 
     // const parsedData = propertyValidation.safeParse(property);
     // console.log("Parsed Data:", parsedData.data);
@@ -37,6 +40,18 @@ export const addProperty = async (property: PropertyWithStringImages) => {
         images: property.images,
       },
     });
+
+    // Deduct 1 credit from the user
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        credit: user.credit! - 1,
+      },
+    });
+    // Revalidate the path to update the cache
+    revalidatePath("/");
     revalidatePath("/my-profile/my-listings");
 
     return {
@@ -50,7 +65,7 @@ export const addProperty = async (property: PropertyWithStringImages) => {
   }
 };
 
-export const getUserProperties = async (id?: string) => {
+export const getUserProperties = async () => {
   try {
     const user = await dbUser();
     if (!user) {
@@ -107,5 +122,83 @@ export const getPropertyById = async (id: string) => {
   } catch (error) {
     console.error(error);
     return { message: "Error fetching property", success: false };
+  }
+};
+
+export const getUserPropertiesPaginated = async ({
+  page = 1,
+  limit = 10,
+}: {
+  id?: string;
+  page?: number;
+  limit?: number;
+}) => {
+  try {
+    const user = await dbUser();
+    if (!user) {
+      return { message: "Unauthenticated user", success: false };
+    }
+
+    // Calculate pagination values
+    const skip = (page - 1) * limit;
+
+    // Get total count first (for calculating total pages)
+    const totalCount = await prisma.property.count({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    // Get paginated properties
+    const properties = await prisma.property.findMany({
+      where: {
+        userId: user.id,
+      },
+      include: {
+        user: true,
+      },
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc", // Most recent first, modify as needed
+      },
+    });
+
+    if (!properties || properties.length === 0) {
+      return {
+        message: "No properties found",
+        success: false,
+        pagination: {
+          totalCount,
+          totalPages: Math.ceil(totalCount / limit),
+          currentPage: page,
+          limit,
+          hasNextPage: false,
+          hasPreviousPage: page > 1,
+        },
+      };
+    }
+
+    // Calculate pagination metadata
+    const totalPages = Math.ceil(totalCount / limit);
+    const hasNextPage = page < totalPages;
+    const hasPreviousPage = page > 1;
+
+    return {
+      message: "Properties fetched successfully",
+      success: true,
+      properties,
+      pagination: {
+        totalCount,
+        totalPages,
+        currentPage: page,
+        limit,
+        hasNextPage,
+        hasPreviousPage,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return { message: "Error fetching properties", success: false };
   }
 };

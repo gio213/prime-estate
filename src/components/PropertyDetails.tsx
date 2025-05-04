@@ -80,7 +80,9 @@ const PropertyDetails = ({ property }: { property: Property }) => {
       {/* Property Header */}
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-3xl font-bold">{property.name}</h1>
+          <h1 className="text-3xl dark:text-primary font-bold">
+            {property.name}
+          </h1>
           <div className="flex items-center gap-2 mt-2">
             <ArrowRightIcon className="h-4 w-4 text-gray-500" />
             <p className="text-gray-500">{property.location}</p>
@@ -166,10 +168,16 @@ const PropertyDetails = ({ property }: { property: Property }) => {
         <div className="md:col-span-2 space-y-8">
           {/* Tabs for different sections */}
           <Tabs defaultValue="overview" className="w-full ">
-            <TabsList className="grid w-full grid-cols-3 dark:bg-primary">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="amenities">Amenities</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3 ">
+              <TabsTrigger className="hover:cursor-pointer " value="overview">
+                Overview
+              </TabsTrigger>
+              <TabsTrigger className="hover:cursor-pointer" value="details">
+                Details
+              </TabsTrigger>
+              <TabsTrigger className="hover:cursor-pointer" value="amenities">
+                Amenities
+              </TabsTrigger>
             </TabsList>
 
             {/* Overview Tab */}

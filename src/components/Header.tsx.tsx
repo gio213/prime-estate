@@ -5,13 +5,13 @@ import SplitText from "./BlurText";
 import MobileNav from "./MobileNav";
 import SignInButton from "./SignInButton";
 import { currentUser } from "@clerk/nextjs/server";
-import { UserButton } from "@clerk/nextjs";
 import { syncUser } from "@/actions/user.action";
-import { User } from "lucide-react";
 import UserProfile from "./UserProfile";
+import { useCanList } from "@/context/CanListProvider";
 
 const Header = async () => {
   const user = await currentUser();
+
   await syncUser();
 
   return (

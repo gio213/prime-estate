@@ -8,6 +8,7 @@ import FadeContent from "@/components/FadeContent";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
+import { CanListProvider } from "@/context/CanListProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,32 +33,34 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} ${inter.style} antialiased`}
-        >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+      <CanListProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} ${inter.style} antialiased`}
           >
-            <FadeContent
-              blur={true}
-              duration={1000}
-              easing="ease-out"
-              initialOpacity={0}
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
             >
-              <div className="flex flex-col min-h-screen">
-                <Header />
-                <main className="flex-grow ">{children}</main>
-                <Toaster position="top-right" />
-                <Footer />
-              </div>
-            </FadeContent>
-          </ThemeProvider>
-        </body>
-      </html>
+              <FadeContent
+                blur={true}
+                duration={1000}
+                easing="ease-out"
+                initialOpacity={0}
+              >
+                <div className="flex flex-col min-h-screen">
+                  <Header />
+                  <main className="flex-grow p-10 ">{children}</main>
+                  <Toaster position="top-right" />
+                  <Footer />
+                </div>
+              </FadeContent>
+            </ThemeProvider>
+          </body>
+        </html>
+      </CanListProvider>
     </ClerkProvider>
   );
 }

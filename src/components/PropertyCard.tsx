@@ -183,11 +183,11 @@ const PropertyCard = ({ property }: { property: Property }) => {
 
         {/* Amenities/Features */}
         {propertyFeatures.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-            {propertyFeatures.slice(0, 3).map((feature, index) => (
+          <div className="flex flex-wrap  gap-2 mb-4">
+            {propertyFeatures.slice(0, 2).map((feature, index) => (
               <span
                 key={index}
-                className="px-2 py-1 border border-gray-200 rounded-full text-xs flex items-center gap-1"
+                className="px-2 py-1 border   border-gray-200 rounded-full text-xs flex items-center gap-1"
               >
                 <Check size={12} className="text-green-500" />
                 {feature.name}
@@ -202,9 +202,9 @@ const PropertyCard = ({ property }: { property: Property }) => {
         )}
 
         <div className="flex justify-between pt-2 border-t">
-          <button className="px-4 py-2 border border-gray-200 rounded-md flex items-center gap-1 hover:bg-gray-50">
+          <button className="px-4 py-2 border   border-gray-200 rounded-md flex items-center gap-1 hover:bg-gray-50">
             <Phone size={16} />
-            {property.sellerPhone}
+            <span className="truncate w-24"> {property.sellerPhone}</span>
           </button>
           <Button
             onClick={() => router.push(`/property-details/${property.id}`)}

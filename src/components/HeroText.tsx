@@ -1,5 +1,6 @@
 "use client";
 
+import { useCanList } from "@/context/CanListProvider";
 import { Button } from "./ui/button";
 
 const HeroText = () => {

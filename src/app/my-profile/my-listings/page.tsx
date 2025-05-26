@@ -1,27 +1,17 @@
-import {
-  getUserProperties,
-  getUserPropertiesPaginated,
-} from "@/actions/property.action";
+import { getUserPropertiesPaginated } from "@/actions/property.action";
 import React from "react";
 import PropertyCard from "@/components/PropertyCard";
-import PaginationControls from "@/components/Pagination";
 import PaginationControlsServer from "@/components/Pagination";
 
 // Define the props type for the page component
-interface MyListingPageProps {
-  searchParams: {
-    page?: string;
-  };
-}
 
-const MyListingPage = async ({ searchParams }: MyListingPageProps) => {
+const MyListingPage = async () => {
   // Get the current page from URL query params (default to 1)
-  const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
   const itemsPerPage = 10;
 
   // Call the paginated server action with the current page
   const response = await getUserPropertiesPaginated({
-    page: currentPage,
+    page: 1,
     limit: itemsPerPage,
   });
 

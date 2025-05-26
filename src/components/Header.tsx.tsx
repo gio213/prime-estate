@@ -16,15 +16,7 @@ const Header = async () => {
 
   return (
     <header className="flex sticky top-0 z-50 items-center justify-between p-4 h-24 shadow-xl bg-background">
-      <SplitText
-        animateBy="letters"
-        text=" Prime Estate!"
-        className="text-4xl font-extrabold text-center text-primary mask-b-from-accent-foreground font-mono"
-        delay={150}
-        animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
-        threshold={0.2}
-        rootMargin="-50px"
-      />
+      <h1 className="text-2xl font-bold text-primary">Prime Estate</h1>
 
       <NavBar />
       <div className="flex items-center gap-4">

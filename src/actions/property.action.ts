@@ -1,19 +1,24 @@
 "use server";
 
 import {
-  PropertyFormValues,
+  serverPropertyValidation,
   propertyValidation,
+  PropertyFormAction,
 } from "@/validation/property.validation";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { get_current_user } from "./user.action";
 
-export type PropertyWithStringImages = Omit<PropertyFormValues, "images"> & {
-  images: string[];
-};
-
-export const addProperty = async (property: PropertyWithStringImages) => {
+export const addProperty = async (property: PropertyFormAction) => {
   try {
+    const parsedData = serverPropertyValidation.safeParse(property);
+    if (!parsedData.success) {
+      return {
+        message: "Validation failed",
+        success: false,
+        errors: parsedData.error.errors,
+      };
+    }
     const user = await get_current_user();
     if (!user) {
       return { message: "Unauthenticated user", success: false };
@@ -24,10 +29,9 @@ export const addProperty = async (property: PropertyWithStringImages) => {
 
     const newProperty = await prisma.property.create({
       data: {
-        ...property,
-        userId: user.id,
+        ...parsedData.data,
+        userId: user.id as string,
         sellerName: user.name!,
-        images: property.images,
       },
     });
 

@@ -57,33 +57,33 @@ model User {
 }
 
 model Property {
-  id              String    @id @default(cuid())
+  id              String   @id @default(cuid())
   name            String
   sellerName      String
   sellerPhone     String
   description     String
   price           Float
-  status          Status?   @default(ACTIVE)
+  status          Status   @default(ACTIVE)
   for             For
   type            Type
   area            Float
   rooms           Int
   bathrooms       Int
-  garage          Int?
-  garden          Boolean?
-  balcony         Boolean?
-  terrace         Boolean?
-  pool            Boolean?
-  airConditioning Boolean?
-  heating         Boolean?
-  furnished       Boolean?
-  elevator        Boolean?
-  parking         Boolean?
+  garage          Int      @default(0)
+  garden          Boolean  @default(false)
+  balcony         Boolean  @default(false)
+  terrace         Boolean  @default(false)
+  pool            Boolean  @default(false)
+  airConditioning Boolean  @default(false)
+  heating         Boolean  @default(false)
+  furnished       Boolean  @default(false)
+  elevator        Boolean  @default(false)
+  parking         Boolean  @default(false)
   location        String
   images          String[]
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  expiresAt       DateTime? @default(dbgenerated("now() + interval '30 days'"))
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  expiresAt       DateTime @default(dbgenerated("now() + interval '30 days'"))
 
   userId            String
   user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)

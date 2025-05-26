@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Progress } from "@/components/ui/progress";
 
 import {
+  PropertyFormAction,
   propertyValidation,
   type PropertyFormValues,
 } from "@/validation/property.validation";
@@ -33,10 +34,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { upload } from "@vercel/blob/client";
-import {
-  addProperty,
-  PropertyWithStringImages,
-} from "@/actions/property.action";
+import { addProperty } from "@/actions/property.action";
 import { Loader2Icon } from "lucide-react";
 import { useCanList } from "@/context/CanListProvider";
 import CanListPropertyErrorMessage from "../CanListPropertyErrorMessage";
@@ -177,7 +175,7 @@ export function PropertyForm({ initialValues }: PropertyFormProps) {
       const imageUrls = await handlePhotoUpload(data.images);
 
       // Prepare data for submission
-      const propertyData: PropertyWithStringImages = {
+      const propertyData: PropertyFormAction = {
         ...data,
         images: imageUrls,
       };

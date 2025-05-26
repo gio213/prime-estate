@@ -70,3 +70,17 @@ export const propertyValidation = z.object({
 });
 
 export type PropertyFormValues = z.infer<typeof propertyValidation>;
+
+// Server-side validation schema (with string URLs)
+export const serverPropertyValidation = propertyValidation
+  .omit({
+    images: true,
+  })
+  .extend({
+    images: z
+      .array(z.string().url("Invalid image URL"))
+      .min(1, "At least one image is required")
+      .max(5, "Maximum 5 images are allowed"),
+  });
+
+export type PropertyFormAction = z.infer<typeof serverPropertyValidation>;

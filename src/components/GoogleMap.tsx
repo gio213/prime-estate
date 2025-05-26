@@ -50,11 +50,6 @@ export default function AddressMap({
     };
 
     document.head.appendChild(script);
-
-    return () => {
-      // Clean up global function when component unmounts
-      delete window.initMap;
-    };
   }, [apiKey]);
 
   // Initialize map and geocode address after script is loaded

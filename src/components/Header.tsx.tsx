@@ -1,13 +1,11 @@
 import React from "react";
 import { ModeToggle } from "./ToggleTheme";
 import NavBar from "./NavBar";
-import SplitText from "./BlurText";
 import MobileNav from "./MobileNav";
 import SignInButton from "./SignInButton";
 import { currentUser } from "@clerk/nextjs/server";
 import { syncUser } from "@/actions/user.action";
 import UserProfile from "./UserProfile";
-import { useCanList } from "@/context/CanListProvider";
 
 const Header = async () => {
   const user = await currentUser();

@@ -37,6 +37,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Property } from "@prisma/client";
+import GoogleMapsPlaceDetails from "./GoogleMap";
+import { env } from "@/lib/env";
 
 const PropertyDetails = ({ property }: { property: Property }) => {
   const formatCurrency = (amount: number) => {
@@ -331,13 +333,17 @@ const PropertyDetails = ({ property }: { property: Property }) => {
           </Tabs>
 
           {/* Location */}
-          <div>
+          {/* <div>
             <h2 className="text-2xl font-semibold mb-4">Location</h2>
             <div className=" bg-accent h-64 rounded-lg flex items-center justify-center">
               <LocationEdit className="h-10 w-10 text-slate-400 mr-2" />
               <span className="text-slate-400">Map: {property.location}</span>
             </div>
-          </div>
+          </div> */}
+          <GoogleMapsPlaceDetails
+            apiKey={env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
+            address={property.location}
+          />
         </div>
 
         {/* Right Column: Contact Information */}

@@ -1,0 +1,8 @@
+| Package Name   | Credits | Price (EUR) | Price per Credit | Savings |
+| -------------- | ------- | ----------- | ---------------- | ------- |
+| Starter        | 1       | €5          | €5.00            | –       |
+| Small Bundle   | 2       | €8          | €4.00            | 20% off |
+| Popular Choice | 5       | €18         | €3.60            | 28% off |
+| Pro Bundle     | 10      | €34         | €3.40            | 32% off |
+| Power Seller   | 20      | €65         | €3.25            | 35% off |
+| Ultimate Plan  | 50      | €150        | €3.00            | 40% off |

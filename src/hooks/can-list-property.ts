@@ -1,10 +1,11 @@
-import { dbUser } from "@/actions/user.action";
+import { get_current_user } from "@/actions/user.action";
 import { cache } from "react";
 
 export const getUserCredit = cache(async () => {
-  const userData = await dbUser();
+  const userData = await get_current_user();
+
   if (!userData) {
-    throw new Error("User not found");
+    return null;
   }
   if (userData.credit === 0) {
     return false;

@@ -4,9 +4,9 @@ import {
   PropertyFormValues,
   propertyValidation,
 } from "@/validation/property.validation";
-import { dbUser } from "./user.action";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { get_current_user } from "./user.action";
 
 export type PropertyWithStringImages = Omit<PropertyFormValues, "images"> & {
   images: string[];
@@ -14,23 +14,13 @@ export type PropertyWithStringImages = Omit<PropertyFormValues, "images"> & {
 
 export const addProperty = async (property: PropertyWithStringImages) => {
   try {
-    const user = await dbUser();
+    const user = await get_current_user();
     if (!user) {
       return { message: "Unauthenticated user", success: false };
     }
     if (user?.credit! < 1) {
       return { message: "Insufficient credits", success: false };
     }
-
-    // const parsedData = propertyValidation.safeParse(property);
-    // console.log("Parsed Data:", parsedData.data);
-    // if (!parsedData.success) {
-    //   return {
-    //     message: "Invalid data",
-    //     success: false,
-    //     errors: parsedData.error.flatten().fieldErrors,
-    //   };
-    // }
 
     const newProperty = await prisma.property.create({
       data: {
@@ -67,7 +57,7 @@ export const addProperty = async (property: PropertyWithStringImages) => {
 
 export const getUserProperties = async () => {
   try {
-    const user = await dbUser();
+    const user = await get_current_user();
     if (!user) {
       return { message: "Unauthenticated user", success: false };
     }
@@ -134,7 +124,7 @@ export const getUserPropertiesPaginated = async ({
   limit?: number;
 }) => {
   try {
-    const user = await dbUser();
+    const user = await get_current_user();
     if (!user) {
       return { message: "Unauthenticated user", success: false };
     }

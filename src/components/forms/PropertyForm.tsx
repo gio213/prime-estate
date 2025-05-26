@@ -37,12 +37,11 @@ import {
   addProperty,
   PropertyWithStringImages,
 } from "@/actions/property.action";
-import { useUser } from "@clerk/nextjs";
 import { Loader2Icon } from "lucide-react";
-import { set } from "zod";
 import { useCanList } from "@/context/CanListProvider";
 import CanListPropertyErrorMessage from "../CanListPropertyErrorMessage";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const FOR_OPTIONS = [
   { value: "RENT", label: "For Rent" },
@@ -73,7 +72,7 @@ export function PropertyForm({ initialValues }: PropertyFormProps) {
   const { canList } = useCanList();
   const router = useRouter();
 
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const form = useForm<PropertyFormValues>({
     resolver: zodResolver(propertyValidation),

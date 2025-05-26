@@ -1,10 +1,10 @@
-import { dbUser } from "@/actions/user.action";
+import { get_current_user } from "@/actions/user.action";
 import StripeCheckout from "@/components/StripeCheckoutClient";
 import React from "react";
 
 const page = async ({ params }: { params: Promise<{ creditId: string }> }) => {
   const { creditId } = await params;
-  const user = await dbUser();
+  const user = await get_current_user();
   if (!user?.email || !user?.name || !user?.id) {
     return <div>Please login to continue</div>;
   }

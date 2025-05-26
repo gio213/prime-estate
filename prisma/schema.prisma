@@ -25,6 +25,11 @@ enum Type {
   STORAGE
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -36,12 +41,13 @@ datasource db {
 
 model User {
   id                String              @id @default(cuid())
-  clerkId           String?             @unique
-  name              String?
-  sirname           String?
-  username          String?             @unique
-  email             String?             @unique
-  credit            Float?              @default(0)
+  name              String
+  lastName          String
+  phone             String              @unique
+  password          String
+  email             String              @unique
+  credit            Float               @default(0)
+  role              Role                @default(USER)
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   properties        Property[]

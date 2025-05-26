@@ -6,7 +6,9 @@ const Footer = () => {
       <p className="text-gray-700 dark:text-gray-100">
         &copy; {new Date().getFullYear()} Prime Estate. All rights reserved.
       </p>
-      <p className="text-gray-700 dark:text-gray-100">Developed by Your Name</p>
+      <p className="text-gray-700 dark:text-gray-100">
+        Developed by Giorgi Patsia
+      </p>
     </div>
   );
 };

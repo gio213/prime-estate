@@ -2,15 +2,13 @@ import React from "react";
 import { ModeToggle } from "./ToggleTheme";
 import NavBar from "./NavBar";
 import MobileNav from "./MobileNav";
-import SignInButton from "./SignInButton";
-import { currentUser } from "@clerk/nextjs/server";
-import { syncUser } from "@/actions/user.action";
+import { get_current_user } from "@/actions/user.action";
 import UserProfile from "./UserProfile";
+import AuthFormModal from "./AuthModal";
+import { SignInForm } from "./forms/auth/UserLoginForm";
 
 const Header = async () => {
-  const user = await currentUser();
-
-  await syncUser();
+  const user = await get_current_user();
 
   return (
     <header className="flex sticky top-0 z-50 items-center justify-between p-4 h-24 shadow-xl bg-background">
@@ -26,7 +24,7 @@ const Header = async () => {
           </>
         ) : (
           <>
-            <SignInButton />
+            <AuthFormModal children={<SignInForm />} mode="signIn" />
             <ModeToggle />
           </>
         )}

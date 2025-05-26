@@ -6,9 +6,9 @@ import Header from "@/components/Header.tsx";
 import Footer from "@/components/Footer";
 import FadeContent from "@/components/FadeContent";
 import { Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import { CanListProvider } from "@/context/CanListProvider";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <AuthProvider>
       <CanListProvider>
         <html lang="en" suppressHydrationWarning>
           <body
@@ -53,7 +53,12 @@ export default function RootLayout({
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow p-10 ">{children}</main>
-                  <Toaster position="top-right" />
+                  <Toaster
+                    position="top-center"
+                    richColors
+                    closeButton
+                    visibleToasts={100}
+                  />
                   <Footer />
                 </div>
               </FadeContent>
@@ -61,6 +66,6 @@ export default function RootLayout({
           </body>
         </html>
       </CanListProvider>
-    </ClerkProvider>
+    </AuthProvider>
   );
 }

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
       "Find your dream property for sale or rent. Browse through our extensive collection of apartments, houses, offices, and commercial spaces.",
     images: [
       {
-        url: "/assets/hero.png", // Replace with your actual image URL
+        url: "https://prime-estate-ruddy.vercel.app/assets/hero.png",
         width: 1200,
         height: 630,
         alt: "Prime Estate Properties",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Browse Properties | Prime Estate",
     description: "Find your dream property for sale or rent on Prime Estate.",
-    images: ["/assets/hero.png"], // Replace with your actual image URL
+    images: ["https://prime-estate-ruddy.vercel.app/assets/hero.png"],
   },
 };
 

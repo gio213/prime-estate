@@ -16,9 +16,10 @@ import {
   LogOut,
   User,
   CreditCard,
-  Users,
   Crown,
   CoinsIcon,
+  Building2,
+  CirclePlus,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -105,38 +106,38 @@ const UserProfile = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
-                <span>ჩემი ანგარიში</span>
+                <span>My account</span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="cursor-pointer">
                 <User className="mr-2 h-4 w-4" />
                 <Link href="/my-profile">
-                  <span>პროფილი</span>
+                  <span>Profile</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">
                 <CreditCard className="mr-2 h-4 w-4" />
-                <Link href="/my-subscription">
-                  <span>ბარათი</span>
+                <Link href="/my-profile/manage-credits">
+                  <span>Buy Credits</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">
-                <Users className="mr-2 h-4 w-4" />
-                <Link href="/my-team">
-                  <span>ჩემი გუნდი</span>
+                <Building2 className="mr-2 h-4 w-4" />
+                <Link href="/my-profile/my-listings">
+                  <span>My Propertie</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">
-                <Crown className="mr-2 h-4 w-4" />
-                <Link href="/my-subscription">
-                  <span>გამოწერები</span>
+                <CirclePlus className="mr-2 h-4 w-4" />
+                <Link href="/my-profile/add-property">
+                  <span>Add property</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <Button className="w-full" asChild>
                 <DropdownMenuItem onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4 text-shadow-background" />
-                  <span>გასვლა</span>
+                  <span>Logout</span>
                 </DropdownMenuItem>
               </Button>
             </DropdownMenuContent>

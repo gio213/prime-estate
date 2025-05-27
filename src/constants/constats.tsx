@@ -24,6 +24,8 @@ import {
   Star,
   Trophy,
   Rocket,
+  BadgeInfo,
+  MessageCircle,
 } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -31,23 +33,23 @@ export const navbarItems = [
   {
     name: "Home",
     href: "/",
-    icon: <Home size={20} />,
+    icon: <Home size={20} className="dark:text-accent-foreground" />,
   },
   {
-    name: "About",
+    name: "About Us",
     href: "/about",
+    icon: <BadgeInfo size={20} className="dark:text-accent-foreground" />,
   },
   {
     name: "Contact",
     href: "/contact",
+    icon: <MessageCircle size={20} className="dark:text-accent-foreground" />,
   },
-  {
-    name: "Blog",
-    href: "/blog",
-  },
+
   {
     name: "Properties",
     href: "/properties",
+    icon: <Building2 size={20} className="dark:text-accent-foreground" />,
   },
 ];
 

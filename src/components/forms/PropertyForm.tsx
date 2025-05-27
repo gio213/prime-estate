@@ -741,7 +741,7 @@ export function PropertyForm({ initialValues }: PropertyFormProps) {
         <CanListPropertyErrorMessage
           canList={canList}
           onUpgrade={() => {
-            router.push("/my-profile/balance");
+            router.push("/my-profile/manage-credits");
           }}
         />
       )}

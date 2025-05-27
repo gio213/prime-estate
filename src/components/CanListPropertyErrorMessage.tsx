@@ -35,9 +35,6 @@ const CanListPropertyErrorMessage = ({
               <CreditCard className="mr-2 h-4 w-4" />
               Buy Credits
             </Button>
-            <Button variant="link" className="text-red-700 hover:text-red-800">
-              Learn more about our pricing
-            </Button>
           </div>
         </AlertDescription>
       </div>

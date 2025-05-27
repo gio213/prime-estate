@@ -1,5 +1,3 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -13,7 +11,7 @@ import {
 import { sideBarItems } from "@/constants/constats";
 import Link from "next/link";
 
-export function AppSidebar() {
+export function AppSidebar({ propertyCount = 0 }: { propertyCount?: number }) {
   return (
     <Sidebar variant="floating" className="fixed left-0 top-24  w-64">
       <SidebarContent>
@@ -28,8 +26,8 @@ export function AppSidebar() {
                       <item.icon />
                       <span>{item.title}</span>
                       {item.title === "My Properties" && (
-                        <span className="ml-auto h-4 w-4 rounded-full items-center justify-center">
-                          3
+                        <span className="text-accent-foreground">
+                          {propertyCount}
                         </span>
                       )}
                     </Link>

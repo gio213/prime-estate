@@ -23,9 +23,10 @@ import {
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import { Property } from "@prisma/client";
 
 type Properties = Awaited<ReturnType<typeof getUserProperties>>;
-export type Property = NonNullable<Properties["properties"]>[number];
+// export type Property = NonNullable<Properties["properties"]>[number];
 
 // Map for property type icons
 const typeIcons: Record<string, React.ReactNode> = {

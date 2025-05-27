@@ -196,3 +196,122 @@ export const getUserPropertiesPaginated = async ({
     return { message: "Error fetching properties", success: false };
   }
 };
+
+export const getPropertiesPaginated = async ({
+  page = 1,
+  limit = 10,
+  type,
+  priceMin,
+  priceMax,
+  for: propertyFor,
+  sort = "createdAt",
+  order = "desc",
+  query,
+}: {
+  page?: number;
+  limit?: number;
+  type?: string;
+  priceMin?: number;
+  priceMax?: number;
+  for?: string;
+  sort?: string;
+  order?: "asc" | "desc";
+  query?: string;
+}) => {
+  try {
+    // Calculate pagination values
+    const skip = (page - 1) * limit;
+
+    // Build where clause with filters
+    const where: any = {
+      status: "ACTIVE", // Only show active properties
+    };
+
+    // Apply filters if provided
+    if (type) {
+      where.type = type;
+    }
+
+    if (propertyFor) {
+      where.for = propertyFor;
+    }
+
+    if (priceMin || priceMax) {
+      where.price = {};
+      if (priceMin) where.price.gte = priceMin;
+      if (priceMax) where.price.lte = priceMax;
+    }
+
+    // Add text search if query provided
+    if (query) {
+      where.OR = [
+        { name: { contains: query, mode: "insensitive" } },
+        { description: { contains: query, mode: "insensitive" } },
+        { location: { contains: query, mode: "insensitive" } },
+      ];
+    }
+
+    // Get total count first (for calculating total pages)
+    const totalCount = await prisma.property.count({ where });
+
+    // Validate sort field to prevent injection
+    const allowedSortFields = ["createdAt", "price", "area", "rooms"];
+
+    const sortField = allowedSortFields.includes(sort) ? sort : "createdAt";
+
+    // Get paginated properties
+    const properties = await prisma.property.findMany({
+      where,
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+          },
+        },
+      },
+      skip,
+      take: limit,
+      orderBy: {
+        [sortField]: order,
+      },
+    });
+
+    // Calculate pagination metadata
+    const totalPages = Math.ceil(totalCount / limit);
+    const hasNextPage = page < totalPages;
+    const hasPreviousPage = page > 1;
+
+    return {
+      message:
+        properties.length > 0
+          ? "Properties fetched successfully"
+          : "No properties found",
+      success: true,
+      properties,
+      pagination: {
+        totalCount,
+        totalPages,
+        currentPage: page,
+        limit,
+        hasNextPage,
+        hasPreviousPage,
+      },
+      // Include applied filters in the response
+      filters: {
+        type,
+        priceMin,
+        priceMax,
+        for: propertyFor,
+        sort: sortField,
+        order,
+        query,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+    return { message: "Error fetching properties", success: false };
+  }
+};

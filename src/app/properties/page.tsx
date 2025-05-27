@@ -1,6 +1,5 @@
 import { getPropertiesPaginated } from "@/actions/property.action";
 import { PropertiesList } from "@/components/PropertiesList";
-import PropertySearchComponent from "@/components/PropertSearchComponent";
 import { Suspense } from "react";
 
 export default function PropertiesPage() {

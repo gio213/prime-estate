@@ -1,7 +1,33 @@
-"use client";
 import HeroText from "@/components/HeroText";
+import { Metadata } from "next";
 import Image from "next/image";
-import { toast } from "sonner";
+
+export const metadata: Metadata = {
+  title: "Browse Properties | Prime Estate",
+  description:
+    "Find your dream property for sale or rent. Browse through our extensive collection of apartments, houses, offices, and commercial spaces.",
+  openGraph: {
+    title: "Browse Properties | Prime Estate",
+    description:
+      "Find your dream property for sale or rent. Browse through our extensive collection of apartments, houses, offices, and commercial spaces.",
+    images: [
+      {
+        url: "/assets/hero.png", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Prime Estate Properties",
+      },
+    ],
+    url: "https://prime-estate-ruddy.vercel.app/properties",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Browse Properties | Prime Estate",
+    description: "Find your dream property for sale or rent on Prime Estate.",
+    images: ["/assets/hero.png"], // Replace with your actual image URL
+  },
+};
 
 export default function Home() {
   return (

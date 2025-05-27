@@ -4,6 +4,13 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Browse Properties | Prime Estate",
+  authors: [
+    {
+      name: "Giorgi Patsia",
+      url: "https://www.giorgipatsia.dev/",
+    },
+  ],
+
   description:
     "Find your dream property for sale or rent. Browse through our extensive collection of apartments, houses, offices, and commercial spaces.",
   openGraph: {
@@ -26,7 +33,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Browse Properties | Prime Estate",
     description: "Find your dream property for sale or rent on Prime Estate.",
-    images: "https://prime-estate-ruddy.vercel.app/assets/hero-social.png", // Use optimized image
+    images: ["https://prime-estate-ruddy.vercel.app/assets/hero-social.png"], // Fixed array format
   },
 };
 

@@ -35,6 +35,10 @@ export default function RootLayout({
     <AuthProvider>
       <CanListProvider>
         <html lang="en" suppressHydrationWarning>
+          <meta
+            property="og:image"
+            content="https://prime-estate-ruddy.vercel.app/assets/hero-social.png"
+          />
           <body
             className={`${geistSans.variable} ${geistMono.variable} ${inter.style} antialiased`}
           >

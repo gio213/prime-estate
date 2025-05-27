@@ -74,7 +74,7 @@ export function SignUpForm() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>სახელი</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input placeholder="John" {...field} />
                     </FormControl>
@@ -87,7 +87,7 @@ export function SignUpForm() {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>გვარი</FormLabel>
+                    <FormLabel>Last Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Doe" {...field} />
                     </FormControl>
@@ -101,7 +101,7 @@ export function SignUpForm() {
           {/* Contact Information Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold border-b pb-2">
-              საკონტაქტო ინფორმაცია
+              contact Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
@@ -109,7 +109,7 @@ export function SignUpForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>ელ.ფოსტა</FormLabel>
+                    <FormLabel>E-mail</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
@@ -126,7 +126,7 @@ export function SignUpForm() {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>ტელეფონის ნომერი</FormLabel>
+                    <FormLabel>Phone Number</FormLabel>
                     <FormControl>
                       <Input placeholder="+995 555 55 55 55" {...field} />
                     </FormControl>
@@ -139,14 +139,14 @@ export function SignUpForm() {
 
           {/* Security Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold border-b pb-2">უსაფრთხოება</h3>
+            <h3 className="text-lg font-semibold border-b pb-2">Security</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>პაროლი</FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -171,22 +171,22 @@ export function SignUpForm() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  დაელოდეთ...
+                  wait...
                 </>
               ) : (
-                "რეგისტრაცია"
+                "Register"
               )}
             </Button>
 
             <div className="text-center space-y-2 pt-4 border-t">
               <p className="text-sm">
-                თუ უკვე გაქვთ ანგარიში, შეგიძლიათ ავტორიზაცია აქ:
+                if you already have an account, you can log in here:
               </p>
               <Link
                 href="/auth/login"
                 className="inline-block font-medium hover:underline transition-all duration-200 text-sm"
               >
-                ავტორიზაცია
+                Login
               </Link>
             </div>
           </div>

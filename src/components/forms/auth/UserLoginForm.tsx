@@ -68,7 +68,7 @@ export function SignInForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>ელ.ფოსტა</FormLabel>
+              <FormLabel>E-mail</FormLabel>
               <FormControl>
                 <Input placeholder="john@example.com" {...field} />
               </FormControl>
@@ -82,7 +82,7 @@ export function SignInForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>პაროლი</FormLabel>
+              <FormLabel>password</FormLabel>
               <FormControl>
                 <Input type="password" placeholder="********" {...field} />
               </FormControl>
@@ -92,18 +92,16 @@ export function SignInForm() {
         />
 
         <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isLoading ? <Loader2 className="animate-spin" /> : "შესვლა"}
+          {isLoading ? <Loader2 className="animate-spin" /> : "Login"}
         </Button>
 
         <div className="text-center text-sm text-muted-foreground">
-          <p className="mb-2">
-            თუ ჯერ არ გაქვთ ანგარიში, შეგიძლიათ რეგისტრირდეთ აქ:
-          </p>
+          <p className="mb-2">if you don't have an account, please register.</p>
           <Link
             href="/auth/register"
             className="font-medium text-primary hover:underline"
           >
-            რეგისტრაცია
+            Register
           </Link>
         </div>
       </form>

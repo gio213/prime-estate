@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     "Find your dream property for sale or rent. Browse through our extensive collection of apartments, houses, offices, and commercial spaces.",
   openGraph: {
     title: "Browse Properties | Prime Estate",
+
     description:
       "Find your dream property for sale or rent. Browse through our extensive collection of apartments, houses, offices, and commercial spaces.",
     images: [

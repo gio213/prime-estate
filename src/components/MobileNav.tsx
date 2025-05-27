@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { navbarItems } from "@/constants/constats";
+import Link from "next/link";
 
 const MobileNav = () => {
   return (
@@ -16,7 +17,7 @@ const MobileNav = () => {
       <SheetTrigger className="blocl md:hidden">
         <Menu size={25} />
       </SheetTrigger>
-      <SheetContent side="top" className="bg-accent">
+      <SheetContent side="right" className="bg-accent">
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
           <SheetDescription>
@@ -30,12 +31,14 @@ const MobileNav = () => {
               key={index}
               className="flex items-center justify-center font-bold gap-2"
             >
-              <span>{item.name}</span>
-              {item.icon && (
-                <span className="text-gray-700 dark:text-gray-100">
-                  {item.icon}
-                </span>
-              )}
+              <Link href={item.href} className="flex items-center gap-2">
+                <span>{item.name}</span>
+                {item.icon && (
+                  <span className="text-gray-700 dark:text-gray-100">
+                    {item.icon}
+                  </span>
+                )}
+              </Link>
             </div>
           ))}
         </div>

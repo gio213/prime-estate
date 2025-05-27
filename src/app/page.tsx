@@ -1,4 +1,5 @@
 import HeroText from "@/components/HeroText";
+import { env } from "@/lib/env";
 import { Metadata } from "next";
 import Image from "next/image";
 
@@ -20,20 +21,20 @@ export const metadata: Metadata = {
       "Find your dream property for sale or rent. Browse through our extensive collection of apartments, houses, offices, and commercial spaces.",
     images: [
       {
-        url: "https://prime-estate-ruddy.vercel.app/assets/hero-social.png", // Use optimized image
+        url: `${env.NEXT_PUBLIC_BASE_URL}/assets/hero-social.png`, // Use optimized image
         width: 1200,
-        height: 630,
+        height: 627,
         alt: "Prime Estate Properties",
       },
     ],
-    url: "https://prime-estate-ruddy.vercel.app/properties",
+    url: `${env.NEXT_PUBLIC_BASE_URL}/properties`,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Browse Properties | Prime Estate",
     description: "Find your dream property for sale or rent on Prime Estate.",
-    images: ["https://prime-estate-ruddy.vercel.app/assets/hero-social.png"], // Fixed array format
+    images: [`${env.NEXT_PUBLIC_BASE_URL}/assets/hero-social.png`], // Fixed array format
   },
 };
 

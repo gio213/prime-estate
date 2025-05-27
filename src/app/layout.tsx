@@ -39,6 +39,7 @@ export default function RootLayout({
             property="og:image"
             content="https://prime-estate-ruddy.vercel.app/assets/hero-social.png"
           />
+
           <body
             className={`${geistSans.variable} ${geistMono.variable} ${inter.style} antialiased`}
           >
